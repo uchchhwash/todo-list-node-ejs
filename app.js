@@ -23,9 +23,17 @@ app.get("/", function (req, res) {
     res.render('list', { listTitle: day, listItem:item });
 })
 
-app.post("/", function(req,res){
-    item.push(req.body.newItem);
-    res.redirect("/");
+app.post("/", function(req, res){
+    if(req.body.list === "Work"){
+        workItems.push(req.body.newItem)
+        res.redirect("/work");
+
+    }
+    else{
+        item.push(req.body.newItem);
+        res.redirect("/");
+    }
+
 })
 
 app.get("/work", function(req, res){
