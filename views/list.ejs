@@ -11,18 +11,22 @@
     <div class="box" id="heading">
         <h1>It's a <%= kindOfDay %> </h1>
     </div>
-    
 
-    <ul>
-        <% for(var i=0; i<newItem.length; i++){ %> 
-        <li> <%= newItem[i] %> </li>
-        <% } %> 
-    </ul>
+    <div class=box>
+        <% for(var i=0; i<newItem.length; i++){ %>
+            <div class="item">
+                <input type="checkbox">
+                <p> <%= newItem[i] %> </p>
+            </div>
+       
+        <% } %>
+        <form action="/" method="post" class="item">
+            <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+            <button type="submit" name="btnSubmit">+</button>
+        </form>
+    </div>
 
-    <form action="/" method="post">
-        <input type="text" name="newItem">
-        <button type="submit" name="btnSubmit">ADD</button>
-    </form>
+
 </body>
 
 </html>
