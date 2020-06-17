@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongooseDatabaseUrl = "mongodb://localhost:27017/todolistDB"
+mongooseDatabaseUrl = process.env.dbUrl;
 
 mongoose.connect(mongooseDatabaseUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 
