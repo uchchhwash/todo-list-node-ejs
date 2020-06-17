@@ -27,7 +27,9 @@ const item3 = new Item({
     name: "Remove a Item"
 })
 let defaultItems = [item1, item2, item3]
-
+exports.generateUrl = function() {
+    return Math.random().toString(36).substring(2, 15) + Math.floor(Date.now() / 1000) + Math.random().toString(36).substring(2, 15);
+}
 exports.defaultItems = defaultItems;
 exports.Item = Item;
 exports.List = List;
