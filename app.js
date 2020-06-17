@@ -62,6 +62,49 @@ app.get("/:customListName", function(req, res) {
     })
 })
 
+app.post("/", function(req, res) {
+    const newItem = new model.Item({
+        name: req.body.newItem
+    })
+    if (req.body.list === "Today") {
+        newItem.save();
+        res.redirect("/");
+    } else {
+        model.List.findOne({ name: req.body.list }, function(err, foundList) {
+            foundList.items.push(newItem);
+            foundList.save();
+            console.log("/" + req.body.list);
+            res.redirect("/" + req.body.list);
+        })
+    }
+})
+
+app.post("/delete", function(req, res) {
+    const checkedItemId = req.body.newItem;
+    const listName = req.body.listName;
+    console.log(req.body)
+    if (req.body.listName === "Today") {
+        model.Item.findByIdAndRemove(checkedItemId, function(err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Deleted Successfully");
+                res.redirect("/");
+            }
+        })
+    } else {
+        model.List.findOneAndUpdate({ name: listName }, { $pull: { items: { _id: checkedItemId } } }, function(err, foundList) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Deleted Successfully");
+                res.redirect("/" + listName);
+            }
+        })
+
+    }
+})
+
 
 app.listen(3000, function() {
     console.log("server started on : http://localhost:3000");
