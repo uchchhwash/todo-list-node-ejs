@@ -40,6 +40,28 @@ app.get("/", function(req, res) {
 
 })
 
+app.get("/:customListName", function(req, res) {
+    const customListName = _.capitalize(req.params.customListName);
+
+    model.List.findOne({ name: customListName }, function(err, foundList) {
+
+        if (!err) {
+            if (!foundList) {
+                console.log("Doesn't Exist");
+                let list = new model.List({
+                    name: customListName,
+                    items: model.defaultItems
+                });
+                console.log(list);
+                list.save();
+                res.redirect("/" + customListName)
+            } else {
+                res.render("list", { listTitle: foundList.name, listItem: foundList.items });
+            }
+        }
+    })
+})
+
 
 app.listen(3000, function() {
     console.log("server started on : http://localhost:3000");
