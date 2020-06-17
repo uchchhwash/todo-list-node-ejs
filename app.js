@@ -11,6 +11,35 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
+app.get("/", function(req, res) {
+
+    model.Item.find({}, function(err, data) {
+        if (err) {
+            console.log("DB Access Error");
+        } else {
+            if (data.length === 0) {
+                model.Item.insertMany(model.defaultItems, function(err) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log("Default Items Inserted Successfully")
+                        res.redirect("/");
+                    }
+                })
+            }
+        }
+    })
+
+    let listItem = model.Item.find({}, function(err, foundItems) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.render('list', { "listTitle": "Today", listItem: foundItems });
+        }
+    })
+
+})
+
 
 app.listen(3000, function() {
     console.log("server started on : http://localhost:3000");
